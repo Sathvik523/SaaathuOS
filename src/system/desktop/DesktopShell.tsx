@@ -2,6 +2,7 @@ import Desktop from "./Desktop";
 import Wallpaper from "./Wallpaper";
 
 import { MenuBar } from "./menu-bar";
+import { Dock } from "@/system/dock";
 
 export default function DesktopShell() {
   return (
@@ -9,6 +10,7 @@ export default function DesktopShell() {
       <Wallpaper />
       <MenuBar />
       <Desktop />
+      <Dock />
     </>
   );
 }
