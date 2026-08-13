@@ -1,30 +1,25 @@
-import MenuBarLeft from "./MenuBarLeft";
-import MenuBarRight from "./MenuBarRight";
+import LeftSection from "./LeftSection";
+import RightSection from "./RightSection";
 
 export default function MenuBar() {
   return (
     <header
-      className="
-        absolute
-        top-0
-        left-0
-        z-50
-        flex
-        h-10
-        w-full
-        items-center
-        justify-between
-        border-b
-        border-white/10
-        bg-black/25
-        px-6
-        text-sm
-        text-white
-        backdrop-blur-xl
-      "
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        width: "100%",
+        height: "var(--topbar-height, 32px)",
+        backgroundColor: "var(--topbar-bg, #000000)",
+        border: "none",
+        boxShadow: "none",
+        overflow: "hidden",
+        zIndex: 999999,
+      }}
+      className="flex h-[32px] items-center justify-between select-none antialiased"
     >
-      <MenuBarLeft />
-      <MenuBarRight />
+      <LeftSection />
+      <RightSection />
     </header>
   );
 }
