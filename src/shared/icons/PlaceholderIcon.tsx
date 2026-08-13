@@ -1,7 +1,9 @@
-export default function PlaceholderIcon() {
+import { MacOSGlassIconTile } from "./MacIcons";
+
+export default function PlaceholderIcon({ className = "h-12 w-12" }: { className?: string }) {
   return (
-    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-zinc-700 text-white font-semibold">
-      E
-    </div>
+    <MacOSGlassIconTile className={className} accentGradient="from-zinc-500/35 to-zinc-800/50">
+      <span className="text-lg font-bold text-white tracking-tight">E</span>
+    </MacOSGlassIconTile>
   );
 }
