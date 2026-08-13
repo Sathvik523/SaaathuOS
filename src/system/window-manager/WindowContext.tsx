@@ -1,0 +1,204 @@
+"use client";
+
+import {
+  createContext,
+  useCallback,
+  useMemo,
+  useState,
+} from "react";
+
+import { applications } from "@/system/registry/applications";
+import { WindowContextType, WindowInstance } from "./types";
+
+export const WindowContext = createContext<WindowContextType | null>(null);
+
+interface Props {
+  children: React.ReactNode;
+}
+
+export default function WindowProvider({ children }: Props) {
+  const [windows, setWindows] = useState<WindowInstance[]>([]);
+  const [highestZIndex, setHighestZIndex] = useState(100);
+
+  const activeWindowId = useMemo(() => {
+    const activeWindow = windows.find((w) => w.isActive && !w.isMinimized && !w.isClosing);
+    return activeWindow ? activeWindow.id : null;
+  }, [windows]);
+
+  const setActiveWindow = useCallback(
+    (windowId: string) => {
+      setHighestZIndex((prev) => {
+        const nextZ = Math.max(100, prev) + 1;
+        setWindows((previous) =>
+          previous.map((win) => {
+            if (win.id === windowId) {
+              return {
+                ...win,
+                isActive: true,
+                isMinimized: false,
+                isClosing: false,
+                isMinimizing: false,
+                zIndex: nextZ,
+              };
+            }
+            return {
+              ...win,
+              isActive: false,
+            };
+          })
+        );
+        return nextZ;
+      });
+    },
+    []
+  );
+
+  // Smooth Closing Animation
+  const closeWindow = useCallback((windowId: string) => {
+    setWindows((previous) =>
+      previous.map((win) => (win.id === windowId ? { ...win, isClosing: true } : win))
+    );
+
+    setTimeout(() => {
+      setWindows((previous) => previous.filter((win) => win.id !== windowId));
+    }, 220);
+  }, []);
+
+  // Smooth Minimizing Animation (Genie Scale down to Dock)
+  const minimizeWindow = useCallback((windowId: string) => {
+    setWindows((previous) =>
+      previous.map((win) => (win.id === windowId ? { ...win, isMinimizing: true } : win))
+    );
+
+    setTimeout(() => {
+      setWindows((previous) => {
+        const updated = previous.map((win) =>
+          win.id === windowId ? { ...win, isMinimized: true, isMinimizing: false, isActive: false } : win
+        );
+        const visible = updated.filter((w) => !w.isMinimized && !w.isClosing);
+        if (visible.length > 0) {
+          const topVisible = visible.reduce((max, w) => (w.zIndex > max.zIndex ? w : max), visible[0]);
+          return updated.map((w) => (w.id === topVisible.id ? { ...w, isActive: true } : w));
+        }
+        return updated;
+      });
+    }, 240);
+  }, []);
+
+  const maximizeWindow = useCallback((windowId: string) => {
+    setWindows((previous) =>
+      previous.map((win) =>
+        win.id === windowId ? { ...win, isMaximized: !win.isMaximized } : win
+      )
+    );
+  }, []);
+
+  const toggleMinimizeWindow = useCallback(
+    (windowId: string) => {
+      const win = windows.find((w) => w.id === windowId);
+      if (!win) return;
+
+      if (win.isMinimized) {
+        setActiveWindow(windowId);
+      } else if (win.isActive) {
+        minimizeWindow(windowId);
+      } else {
+        setActiveWindow(windowId);
+      }
+    },
+    [windows, setActiveWindow, minimizeWindow]
+  );
+
+  const openWindow = useCallback(
+    (applicationId: string) => {
+      const application = applications.find((app) => app.id === applicationId);
+      if (!application) return;
+
+      const existingWindow = windows.find((w) => w.applicationId === applicationId);
+
+      if (existingWindow) {
+        setActiveWindow(existingWindow.id);
+        return;
+      }
+
+      // Compute initial cascading position
+      const windowCount = windows.length;
+      const offsetX = 100 + (windowCount % 4) * 36;
+      const offsetY = 80 + (windowCount % 4) * 32;
+
+      const newZ = Math.max(100, highestZIndex) + 1;
+      setHighestZIndex(newZ);
+
+      const newWindow: WindowInstance = {
+        id: crypto.randomUUID(),
+        applicationId,
+        title: application.name,
+        size: {
+          width: application.defaultWindow.width,
+          height: application.defaultWindow.height,
+        },
+        position: {
+          x: offsetX,
+          y: offsetY,
+        },
+        isActive: true,
+        isMinimized: false,
+        isMaximized: false,
+        isClosing: false,
+        isMinimizing: false,
+        zIndex: newZ,
+      };
+
+      setWindows((previous) => [
+        ...previous.map((w) => ({ ...w, isActive: false })),
+        newWindow,
+      ]);
+    },
+    [windows, highestZIndex, setActiveWindow]
+  );
+
+  const updateWindowPosition = useCallback((windowId: string, position: { x: number; y: number }) => {
+    setWindows((previous) =>
+      previous.map((win) => (win.id === windowId ? { ...win, position } : win))
+    );
+  }, []);
+
+  const updateWindowSize = useCallback((windowId: string, size: { width: number; height: number }) => {
+    setWindows((previous) =>
+      previous.map((win) => (win.id === windowId ? { ...win, size } : win))
+    );
+  }, []);
+
+  const value = useMemo(
+    () => ({
+      windows,
+      activeWindowId,
+      openWindow,
+      closeWindow,
+      setActiveWindow,
+      minimizeWindow,
+      maximizeWindow,
+      toggleMinimizeWindow,
+      updateWindowPosition,
+      updateWindowSize,
+    }),
+    [
+      windows,
+      activeWindowId,
+      openWindow,
+      closeWindow,
+      setActiveWindow,
+      minimizeWindow,
+      maximizeWindow,
+      toggleMinimizeWindow,
+      updateWindowPosition,
+      updateWindowSize,
+    ]
+  );
+
+  return (
+    <WindowContext.Provider value={value}>
+      {children}
+    </WindowContext.Provider>
+  );
+}
