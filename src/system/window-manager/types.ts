@@ -15,6 +15,15 @@ export interface WindowInstance {
 export interface WindowContextType {
   windows: WindowInstance[];
   activeWindowId: string | null;
+  disassemblyStep: 0 | 1 | 2 | 3 | 4;
+  connectDisassemblyStep: 0 | 1 | 2 | 3 | 4;
+  isProjectsFullPageOpen: boolean;
+  isConnectFullPageOpen: boolean;
+  isDesktopDisassembling: boolean;
+  openProjectsFullPage: () => void;
+  closeProjectsFullPage: () => void;
+  openConnectFullPage: () => void;
+  closeConnectFullPage: () => void;
   openWindow: (applicationId: string) => void;
   closeWindow: (windowId: string) => void;
   setActiveWindow: (windowId: string) => void;

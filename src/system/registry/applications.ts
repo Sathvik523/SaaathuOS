@@ -35,8 +35,8 @@ export const applications: Application[] = [
     component: ProjectsApp,
     showInDock: true,
     defaultWindow: {
-      width: 900,
-      height: 600,
+      width: 1020,
+      height: 660,
     },
   },
   {

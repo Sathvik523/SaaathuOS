@@ -49,8 +49,9 @@ export const USER_PROFILE = {
   bio: "Passionate engineer building next-generation web applications, autonomous AI agents, and high-performance operating systems in the browser.",
   location: "India / Remote",
   email: "sathvik@example.com",
-  github: "https://github.com",
+  github: "https://github.com/Sathvik523",
   linkedin: "https://linkedin.com",
+  instagram: "https://instagram.com",
   twitter: "https://x.com",
   osVersion: "SaaathuOS 2.0 (macOS Sequoia Dark Edition)",
 };

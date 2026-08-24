@@ -1,17 +1,571 @@
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Dancing+Script:wght@700&display=swap');
 @import "tailwindcss";
 
 :root {
   --background: #0f1115;
   --foreground: #ffffff;
+  --topbar-height: 32px;
+  --topbar-bg: #000000;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+.font-helvetica {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
+
+.font-calligraphy {
+  font-family: "Great Vibes", "Dancing Script", cursive, serif;
+}
+
+/* Period Dot Falling from Above with Bounce Physics */
+@keyframes dotFallInstantAnimation {
+  0% {
+    transform: translateY(-80px) scale(0.5);
+    opacity: 0;
+  }
+  60% {
+    transform: translateY(0px) scale(1.2);
+    opacity: 1;
+  }
+  80% {
+    transform: translateY(-6px) scale(0.95);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0px) scale(1);
+    opacity: 1;
+  }
+}
+
+.animate-dot-fall-instant {
+  animation: dotFallInstantAnimation 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* Authentic Spring-Mass-Damper Physics for "Heyy" (Squish, Stretch & Damped Pendulum Decay) */
+@keyframes heyyRealPhysicsWobble {
+  0% {
+    transform: scale(0.1, 0.1) translateY(18px) rotate(0deg);
+    opacity: 0;
+  }
+  /* 1st Peak: Elastic Vertical Stretch & Left Pendulum Tilt */
+  18% {
+    transform: scale(0.85, 1.34) translateY(-10px) rotate(-14deg);
+    opacity: 1;
+  }
+  /* 1st Rebound: Horizontal Squish & Right Pendulum Tilt */
+  32% {
+    transform: scale(1.18, 0.88) translateY(3px) rotate(9deg);
+    opacity: 1;
+  }
+  /* 2nd Peak: Decreased Stretch & Left Tilt */
+  46% {
+    transform: scale(0.93, 1.12) translateY(-4px) rotate(-5.5deg);
+    opacity: 1;
+  }
+  /* 2nd Rebound: Decreased Squish & Right Tilt */
+  60% {
+    transform: scale(1.06, 0.95) translateY(1px) rotate(3.2deg);
+    opacity: 1;
+  }
+  /* 3rd Peak: Micro Stretch & Micro Left Tilt */
+  74% {
+    transform: scale(0.98, 1.03) translateY(-1px) rotate(-1.8deg);
+    opacity: 1;
+  }
+  /* 3rd Rebound: Micro Squish & Micro Right Tilt */
+  88% {
+    transform: scale(1.01, 0.99) translateY(0px) rotate(0.8deg);
+    opacity: 1;
+  }
+  /* Fully Damped Equilibrium */
+  100% {
+    transform: scale(1, 1) translateY(0px) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+.animate-heyy-wobble {
+  display: inline-block;
+  transform-origin: bottom left;
+  animation: heyyRealPhysicsWobble 3.6s cubic-bezier(0.25, 1, 0.35, 1) forwards;
+}
+
+/* Gentle Calm Ambient Neon Light Sweep across background (Slightly Increased "Lil Bit" Opacity) */
+@keyframes calmNeonLightSweep {
+  0% {
+    transform: translate(-25vw, -25vh) scale(0.9) rotate(0deg);
+    opacity: 0.30;
+    filter: blur(110px);
+  }
+  33% {
+    transform: translate(25vw, -10vh) scale(1.30) rotate(15deg);
+    opacity: 0.58;
+    filter: blur(130px);
+  }
+  66% {
+    transform: translate(-10vw, 25vh) scale(1.15) rotate(-10deg);
+    opacity: 0.42;
+    filter: blur(120px);
+  }
+  100% {
+    transform: translate(-25vw, -25vh) scale(0.9) rotate(0deg);
+    opacity: 0.30;
+    filter: blur(110px);
+  }
+}
+
+.animate-calm-neon-sweep {
+  animation: calmNeonLightSweep 18s ease-in-out infinite;
+}
+
+/* Gentle Soft Breathing Backdrop Glow behind "connect" button (Toned Down Intensity) */
+@keyframes connectPulseGlow {
+  0%, 100% {
+    opacity: 0.18;
+    transform: translate(-50%, -50%) scale(0.92);
+    filter: blur(80px);
+  }
+  50% {
+    opacity: 0.48;
+    transform: translate(-50%, -50%) scale(1.15);
+    filter: blur(120px);
+  }
+}
+
+.animate-connect-pulse-glow {
+  animation: connectPulseGlow 4.2s ease-in-out infinite;
+}
+
+/* Organic Multi-Directional Floating Motion for Social Icons */
+@keyframes floatOrganic1 {
+  0%, 100% { transform: translate(0px, 0px) rotate(0deg); }
+  33% { transform: translate(-16px, -24px) rotate(5deg); }
+  66% { transform: translate(14px, -12px) rotate(-4deg); }
+}
+
+@keyframes floatOrganic2 {
+  0%, 100% { transform: translate(0px, 0px) rotate(0deg); }
+  33% { transform: translate(20px, 18px) rotate(-6deg); }
+  66% { transform: translate(-12px, 26px) rotate(4deg); }
+}
+
+@keyframes floatOrganic3 {
+  0%, 100% { transform: translate(0px, 0px) rotate(0deg); }
+  33% { transform: translate(-22px, 16px) rotate(-5deg); }
+  66% { transform: translate(16px, -20px) rotate(6deg); }
+}
+
+@keyframes floatOrganic4 {
+  0%, 100% { transform: translate(0px, 0px) rotate(0deg); }
+  33% { transform: translate(18px, -22px) rotate(4deg); }
+  66% { transform: translate(-16px, -14px) rotate(-5deg); }
+}
+
+.animate-float-organic-1 { animation: floatOrganic1 5.2s ease-in-out infinite; }
+.animate-float-organic-2 { animation: floatOrganic2 6.0s ease-in-out infinite; }
+.animate-float-organic-3 { animation: floatOrganic3 5.6s ease-in-out infinite; }
+.animate-float-organic-4 { animation: floatOrganic4 6.4s ease-in-out infinite; }
+
+/* Dynamic Sigmoid Tether Stretch & Elongation Animations */
+
+/* GitHub Sigmoid Tether: Start Point anchored at nearest icon edge, End Point 100% fixed at (320, 274) */
+@keyframes sigmoidStretchGitHub {
+  0%, 100% {
+    d: path("M 210 190 C 270 190, 260 274, 320 274");
+  }
+  33% {
+    d: path("M 194 166 C 254 166, 260 274, 320 274");
+  }
+  66% {
+    d: path("M 224 178 C 284 178, 260 274, 320 274");
+  }
+}
+
+/* LinkedIn Sigmoid Tether: Start Point anchored at nearest icon edge, End Point 100% fixed at (480, 274) */
+@keyframes sigmoidStretchLinkedIn {
+  0%, 100% {
+    d: path("M 590 190 C 530 190, 540 274, 480 274");
+  }
+  33% {
+    d: path("M 610 208 C 550 208, 540 274, 480 274");
+  }
+  66% {
+    d: path("M 578 216 C 518 216, 540 274, 480 274");
+  }
+}
+
+/* Gmail Sigmoid Tether: Start Point anchored at nearest icon edge, End Point 100% fixed at (320, 326) */
+@keyframes sigmoidStretchGmail {
+  0%, 100% {
+    d: path("M 210 410 C 270 410, 260 326, 320 326");
+  }
+  33% {
+    d: path("M 188 426 C 248 426, 260 326, 320 326");
+  }
+  66% {
+    d: path("M 226 390 C 286 390, 260 326, 320 326");
+  }
+}
+
+/* Instagram Sigmoid Tether: Start Point anchored at nearest icon edge, End Point 100% fixed at (480, 326) */
+@keyframes sigmoidStretchInstagram {
+  0%, 100% {
+    d: path("M 590 410 C 530 410, 540 326, 480 326");
+  }
+  33% {
+    d: path("M 608 388 C 548 388, 540 326, 480 326");
+  }
+  66% {
+    d: path("M 574 396 C 514 396, 540 326, 480 326");
+  }
+}
+
+.animate-sigmoid-github { animation: sigmoidStretchGitHub 5.2s ease-in-out infinite; }
+.animate-sigmoid-linkedin { animation: sigmoidStretchLinkedIn 6.0s ease-in-out infinite; }
+.animate-sigmoid-gmail { animation: sigmoidStretchGmail 5.6s ease-in-out infinite; }
+.animate-sigmoid-instagram { animation: sigmoidStretchInstagram 6.4s ease-in-out infinite; }
+
+/* ULTRA-SMOOTH 5-TIER OUTWARD RADIAL WAVE PROPAGATION (For Portal Intro Overlays) */
+
+/* Ring 1 (Inner - Peak at 15%) */
+@keyframes radialWave1 {
+  0% {
+    transform: scale(0.90);
+    opacity: 0.25;
+    filter: drop-shadow(0 0 0px rgba(56, 189, 248, 0));
+  }
+  15% {
+    transform: scale(1.06);
+    opacity: 1;
+    filter: drop-shadow(0 0 16px rgba(56, 189, 248, 0.95));
+  }
+  40%, 100% {
+    transform: scale(1);
+    opacity: 0.6;
+    filter: drop-shadow(0 0 2px rgba(56, 189, 248, 0.25));
+  }
+}
+
+/* Ring 2 (Inner-Mid - Peak at 30%) */
+@keyframes radialWave2 {
+  0%, 12% {
+    transform: scale(0.91);
+    opacity: 0.2;
+    filter: drop-shadow(0 0 0px rgba(56, 189, 248, 0));
+  }
+  30% {
+    transform: scale(1.07);
+    opacity: 0.95;
+    filter: drop-shadow(0 0 18px rgba(56, 189, 248, 0.95));
+  }
+  55%, 100% {
+    transform: scale(1);
+    opacity: 0.55;
+    filter: drop-shadow(0 0 3px rgba(56, 189, 248, 0.25));
+  }
+}
+
+/* Ring 3 (Center-Mid - Peak at 45%) */
+@keyframes radialWave3 {
+  0%, 25% {
+    transform: scale(0.92);
+    opacity: 0.15;
+    filter: drop-shadow(0 0 0px rgba(56, 189, 248, 0));
+  }
+  45% {
+    transform: scale(1.08);
+    opacity: 0.9;
+    filter: drop-shadow(0 0 20px rgba(56, 189, 248, 0.95));
+  }
+  70%, 100% {
+    transform: scale(1);
+    opacity: 0.5;
+    filter: drop-shadow(0 0 3px rgba(56, 189, 248, 0.25));
+  }
+}
+
+/* Ring 4 (Outer-Mid - Peak at 60%) */
+@keyframes radialWave4 {
+  0%, 40% {
+    transform: scale(0.93);
+    opacity: 0.12;
+    filter: drop-shadow(0 0 0px rgba(56, 189, 248, 0));
+  }
+  60% {
+    transform: scale(1.09);
+    opacity: 0.85;
+    filter: drop-shadow(0 0 22px rgba(56, 189, 248, 0.95));
+  }
+  82%, 100% {
+    transform: scale(1);
+    opacity: 0.45;
+    filter: drop-shadow(0 0 4px rgba(56, 189, 248, 0.25));
+  }
+}
+
+/* Ring 5 (Outer - Peak at 75%) */
+@keyframes radialWave5 {
+  0%, 55% {
+    transform: scale(0.94);
+    opacity: 0.1;
+    filter: drop-shadow(0 0 0px rgba(56, 189, 248, 0));
+  }
+  75% {
+    transform: scale(1.10);
+    opacity: 0.8;
+    filter: drop-shadow(0 0 25px rgba(56, 189, 248, 1));
+  }
+  95%, 100% {
+    transform: scale(1);
+    opacity: 0.4;
+    filter: drop-shadow(0 0 4px rgba(56, 189, 248, 0.25));
+  }
+}
+
+/* Outer Expanding Shockwave Aura (Fires 65% -> 100%) */
+@keyframes radialWaveAura5 {
+  0%, 55% {
+    transform: scale(0.4);
+    opacity: 0;
+  }
+  80% {
+    transform: scale(1.35);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(1.65);
+    opacity: 0;
+  }
+}
+
+.animate-radial-wave-1 {
+  animation: radialWave1 4.2s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+.animate-radial-wave-2 {
+  animation: radialWave2 4.2s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+.animate-radial-wave-3 {
+  animation: radialWave3 4.2s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+.animate-radial-wave-4 {
+  animation: radialWave4 4.2s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+.animate-radial-wave-5 {
+  animation: radialWave5 4.2s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+.animate-radial-wave-aura-5 {
+  animation: radialWaveAura5 4.2s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+/* Ultra-Slow & Graceful Slide-In from Left for Project Description (2.5s) */
+@keyframes descriptionSlowAppearAnimation {
+  0% {
+    opacity: 0;
+    transform: translateX(-90px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0px);
+  }
+}
+
+.animate-description-slow-appear {
+  animation: descriptionSlowAppearAnimation 2.5s cubic-bezier(0.12, 1, 0.22, 1) forwards;
+}
+
+/* 4.5s Ultra-Slow & Elegant Fade-In-Up & Light Materialization for PROJECTS Headline */
+@keyframes heroProjectsTitleAppearAnimation {
+  0% {
+    opacity: 0;
+    transform: translateY(50px) scale(0.92);
+    filter: blur(12px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0px) scale(1);
+    filter: blur(0px);
+  }
+}
+
+.animate-projects-hero-appear {
+  animation: heroProjectsTitleAppearAnimation 4.5s cubic-bezier(0.12, 1, 0.22, 1) forwards;
+}
+
+/* 4.8s Ultra-Slow Dark Blue Backlight Materialization */
+@keyframes darkBlueGlowAppearAnimation {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.4);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+.animate-dark-blue-glow-appear {
+  animation: darkBlueGlowAppearAnimation 4.8s cubic-bezier(0.12, 1, 0.22, 1) forwards;
+}
+
+/* GitHub Widget: Ultra-smooth 2.2s Thread Stretch & Pull Back Into Top */
+@keyframes githubStretchAndFlyAnimation {
+  0% {
+    transform: translateY(0px) scaleY(1) rotate(0deg);
+    opacity: 1;
+  }
+  28% {
+    transform: translateY(28px) scaleY(1.25) rotate(-3deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-680px) scaleY(1) rotate(0deg);
+    opacity: 0;
+  }
+}
+
+.animate-github-stretch-fly {
+  animation: githubStretchAndFlyAnimation 2.2s cubic-bezier(0.12, 1, 0.22, 1) forwards;
+}
+
+/* Dock Icons: Simply fly off in random 3D directions */
+@keyframes dockSpreadVibrateAndFlyAnimation {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+    opacity: 1;
+  }
+  20% {
+    transform: translate3d(calc(var(--fly-x) * 0.15), -15px, 0) rotate(calc(var(--fly-rot) * 0.2)) scale(1.05);
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(var(--fly-x), -120vh, -200px) rotate(var(--fly-rot)) scale(var(--fly-scale));
+    opacity: 0;
+  }
+}
+
+.animate-dock-spread-vibrate-fly {
+  animation: dockSpreadVibrateAndFlyAnimation 1.8s cubic-bezier(0.12, 1, 0.22, 1) forwards;
+}
+
+/* 6.5s Choreographed 3-Stage Motion with Full-Screen Viewport Overlay (Projects):
+   1. 0% -> 15%: Glide from top-right origin to screen center
+   2. 15% -> 88%: DEAD CENTER HOLD IN EXACT VIEWPORT CENTER FOR 4.7s WITH 5 REVOLVING RINGS & OUTWARD WAVE PROPAGATION!
+   3. 88% -> 100%: Seamlessly converge into bottom point as Projects page rolls up directly underneath (ZERO BLANK GAP!)
+*/
+@keyframes projectsCondenseAnimation {
+  0% {
+    transform: translate(35vw, -35vh) scale(0.42) rotate(0deg);
+    opacity: 0;
+  }
+  15% {
+    transform: translate(0, 0) scale(0.70) rotate(0deg);
+    opacity: 1;
+  }
+  /* STAY 100% FULLY VISIBLE IN CENTER UNTIL 88% OF ANIMATION */
+  88% {
+    transform: translate(0, 0) scale(0.70) rotate(0deg);
+    opacity: 1;
+  }
+  /* Final 12%: Converge down seamlessly as Projects page rolls up */
+  100% {
+    transform: translate(0, 42vh) scale(0.05) rotate(0deg);
+    opacity: 0;
+  }
+}
+
+.animate-projects-condense {
+  animation: projectsCondenseAnimation 6.5s cubic-bezier(0.2, 0.9, 0.2, 1) forwards;
+}
+
+/* 6.5s Connect Condense Animation: Glides to dead center at 70% scale, holds for 4.7s with Indigo text & wave rings, then converges right as Connect page glides in */
+@keyframes connectCondenseAnimation {
+  0% {
+    transform: translate(35vw, -35vh) scale(0.42) rotate(0deg);
+    opacity: 0;
+  }
+  15% {
+    transform: translate(0, 0) scale(0.70) rotate(0deg);
+    opacity: 1;
+  }
+  /* STAY 100% FULLY VISIBLE IN CENTER UNTIL 88% OF ANIMATION */
+  88% {
+    transform: translate(0, 0) scale(0.70) rotate(0deg);
+    opacity: 1;
+  }
+  /* Final 12%: Converge right seamlessly as Connect page glides in */
+  100% {
+    transform: translate(48vw, 0) scale(0.05) rotate(0deg);
+    opacity: 0;
+  }
+}
+
+.animate-connect-condense {
+  animation: connectCondenseAnimation 6.5s cubic-bezier(0.2, 0.9, 0.2, 1) forwards;
+}
+
+/* Slow rotation for wide-spaced dotted concentric rings */
+@keyframes spinSlow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes spinReverseSlow {
+  from { transform: rotate(360deg); }
+  to { transform: rotate(0deg); }
+}
+
+.animate-spin-slow {
+  animation: spinSlow 32s linear infinite;
+}
+
+.animate-spin-reverse-slow {
+  animation: spinReverseSlow 38s linear infinite;
+}
+
+/* Hide scrollbar across all browsers while maintaining full scrollability */
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari and Opera */
+}
+
+/* Intense Blinking Red Ambient Glow for Alert Interface */
+@keyframes redAlertBlink {
+  0%, 100% {
+    opacity: 0.30;
+    transform: scale(0.95);
+  }
+  50% {
+    opacity: 0.90;
+    transform: scale(1.20);
+  }
+}
+
+.animate-red-alert-blink {
+  animation: redAlertBlink 1.2s ease-in-out infinite;
+}
+
+/* Gentle Moving White Light Border Sweep */
+@keyframes borderLightSpin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-border-light-spin {
+  animation: borderLightSpin 4s linear infinite;
+}
+
+
 
 html,
 body {
@@ -24,7 +578,7 @@ body {
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-sans);
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 *,
