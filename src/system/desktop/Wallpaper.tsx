@@ -67,8 +67,9 @@ export default function Wallpaper() {
       {/* 5. Cyber Grid */}
       {wallpaper === "cyber" && (
         <div className="relative h-full w-full bg-[#08080C]">
-          <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)] bg-[size:4rem_4rem]" />
-          <div className="absolute top-1/4 left-1/3 h-96 w-96 rounded-full bg-indigo-600/15 blur-[130px]" />
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff0c_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0c_1px,transparent_1px)] bg-[size:3.5rem_3.5rem]" />
+          <div className="absolute top-1/4 left-1/3 h-96 w-96 rounded-full bg-cyan-500/20 blur-[140px] animate-pulse" />
+          <div className="absolute bottom-1/4 right-1/4 h-96 w-96 rounded-full bg-indigo-600/20 blur-[140px]" />
         </div>
       )}
 
