@@ -168,6 +168,41 @@ export default function TerminalApp() {
         newHistory.push({ id: crypto.randomUUID(), type: "output", text: "sathvik@SaaathuOS" });
         break;
 
+      case "neofetch":
+        newHistory.push({
+          id: crypto.randomUUID(),
+          type: "output",
+          text: (
+            <div className="flex gap-6 my-2 text-xs font-mono select-none">
+              <div className="text-sky-400 font-bold leading-tight">
+                <pre>{`       .:'
+     .:::
+  .:::::
+  ::::::
+  ::::::
+  ::::::
+  ::::::
+  ::::::
+  ':::::`}</pre>
+              </div>
+              <div className="space-y-1 text-white">
+                <p className="font-bold text-sky-400">sathvik@SaaathuOS</p>
+                <p className="text-white/40">-------------------</p>
+                <p><span className="text-indigo-400 font-semibold">OS:</span> SaaathuOS 2.0 (macOS Monterey Glass Theme)</p>
+                <p><span className="text-indigo-400 font-semibold">Host:</span> Apple Mac15,3 (M3 Max ARM64)</p>
+                <p><span className="text-indigo-400 font-semibold">Kernel:</span> Darwin 24.3.0</p>
+                <p><span className="text-indigo-400 font-semibold">Uptime:</span> 12 hours, 42 mins</p>
+                <p><span className="text-indigo-400 font-semibold">Shell:</span> zsh 5.9 (x86_64-apple-darwin24.0)</p>
+                <p><span className="text-indigo-400 font-semibold">WM:</span> SaaathuOS Window Manager v2.0</p>
+                <p><span className="text-indigo-400 font-semibold">Terminal:</span> SaaathuOS Terminal (Zsh Engine)</p>
+                <p><span className="text-indigo-400 font-semibold">CPU:</span> Apple M3 Max (16-core)</p>
+                <p><span className="text-indigo-400 font-semibold">Memory:</span> 48GB Unified Memory</p>
+              </div>
+            </div>
+          ),
+        });
+        break;
+
       case "date":
         newHistory.push({ id: crypto.randomUUID(), type: "output", text: new Date().toString() });
         break;
