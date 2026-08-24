@@ -1,12 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { Palette, Info, ShieldCheck, Cpu, HardDrive, Upload, Check } from "lucide-react";
+import { Palette, Info, ShieldCheck, Cpu, HardDrive, Upload, Check, Volume2 } from "lucide-react";
 import { USER_PROFILE } from "@/content/portfolioData";
 import { useWallpaper, WallpaperPreset } from "@/system/desktop/WallpaperContext";
 
 export default function SettingsApp() {
-  const [activeTab, setActiveTab] = useState<"about" | "appearance">("about");
+  const [activeTab, setActiveTab] = useState<"about" | "appearance" | "sound">("about");
+  const [soundEnabled, setSoundEnabled] = useState(true);
   const { wallpaper, setWallpaper, customImageUrl, setCustomImageUrl } = useWallpaper();
   const [inputUrl, setInputUrl] = useState("");
 
@@ -62,7 +63,17 @@ export default function SettingsApp() {
           }`}
         >
           <Palette size={16} />
-          Appearance & Wallpaper
+          Wallpaper & Theme
+        </button>
+
+        <button
+          onClick={() => setActiveTab("sound")}
+          className={`flex w-full items-center gap-3 rounded-lg px-3 py-2 text-[13px] font-medium transition-colors ${
+            activeTab === "sound" ? "bg-[#007AFF] text-white" : "text-white/70 hover:bg-white/10"
+          }`}
+        >
+          <Volume2 size={16} />
+          Sound & Haptics
         </button>
       </aside>
 
