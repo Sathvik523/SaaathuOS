@@ -144,4 +144,33 @@ export const SEARCH_INDEX: SearchResultItem[] = [
       keywords: [skill.name.toLowerCase(), cat.name.toLowerCase(), "skill", "technology", "stack"],
     }))
   ),
+
+  // 6. Quick System Commands
+  {
+    id: "cmd-lock",
+    title: "Lock SaaathuOS Screen",
+    subtitle: "Return to 3D Claymorphic LockScreen",
+    category: "Commands",
+    icon: "Lock",
+    action: { type: "exec_command", payload: "lock" },
+    keywords: ["lock", "screen", "sleep", "logout", "exit", "security"],
+  },
+  {
+    id: "cmd-wallpaper",
+    title: "Open Wallpaper Engine",
+    subtitle: "Switch macOS Dynamic Gradients & Mesh Themes",
+    category: "Commands",
+    icon: "Image",
+    action: { type: "open_app", payload: "settings" },
+    keywords: ["wallpaper", "background", "theme", "gradient", "mesh", "customize"],
+  },
+  {
+    id: "cmd-terminal",
+    title: "Launch Interactive Terminal",
+    subtitle: "Zsh System Shell & Neofetch Engine",
+    category: "Commands",
+    icon: "Terminal",
+    action: { type: "open_app", payload: "terminal" },
+    keywords: ["terminal", "shell", "bash", "zsh", "cli", "neofetch", "commands"],
+  },
 ];
