@@ -12,70 +12,75 @@ export default function Wallpaper() {
           className="h-full w-full bg-cover bg-center transition-all duration-300"
           style={{ backgroundImage: `url(${customImageUrl})` }}
         />
-        <div className="absolute inset-0 bg-black/20 pointer-events-none" />
+        <div className="absolute inset-0 bg-black/30 pointer-events-none" />
       </div>
     );
   }
 
   return (
-    <div className="absolute inset-0 -z-10 overflow-hidden bg-[#0A0B0E] select-none transition-all duration-300">
+    <div className="absolute inset-0 -z-10 overflow-hidden bg-[#07080B] select-none transition-all duration-500">
+      {/* Ultra-Minimalist Subtle Ambient Radial Vignette */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(30,41,59,0.25)_0%,rgba(7,8,11,0.95)_75%,#040507_100%)] pointer-events-none" />
+
+      {/* Subtle Micro Noise Texture */}
+      <div className="absolute inset-0 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:24px_24px] opacity-[0.025] pointer-events-none" />
+
       {/* 1. macOS Sequoia Glow */}
       {wallpaper === "sequoia" && (
         <div className="relative h-full w-full">
-          <div className="absolute top-[-10%] left-[-10%] h-[65%] w-[65%] rounded-full bg-gradient-to-br from-indigo-900/50 via-purple-900/30 to-transparent blur-[130px]" />
-          <div className="absolute bottom-[-10%] right-[-10%] h-[75%] w-[75%] rounded-full bg-gradient-to-tl from-blue-900/40 via-violet-950/30 to-transparent blur-[150px]" />
-          <div className="absolute top-[25%] right-[20%] h-[45%] w-[45%] rounded-full bg-gradient-to-tr from-cyan-900/25 via-blue-950/20 to-transparent blur-[110px]" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-[#0A0B0E]/60 to-[#050507]" />
+          <div className="absolute top-[-15%] left-[-10%] h-[70%] w-[70%] rounded-full bg-gradient-to-br from-indigo-950/40 via-purple-950/20 to-transparent blur-[140px]" />
+          <div className="absolute bottom-[-15%] right-[-10%] h-[75%] w-[75%] rounded-full bg-gradient-to-tl from-blue-950/35 via-slate-950/20 to-transparent blur-[160px]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-[#07080B]/50 to-[#040507]" />
         </div>
       )}
 
       {/* 2. macOS Sonoma Glow */}
       {wallpaper === "sonoma" && (
         <div className="relative h-full w-full">
-          <div className="absolute top-[-15%] right-[-10%] h-[70%] w-[70%] rounded-full bg-gradient-to-bl from-amber-900/40 via-rose-950/30 to-transparent blur-[140px]" />
-          <div className="absolute bottom-[-10%] left-[-10%] h-[65%] w-[65%] rounded-full bg-gradient-to-tr from-purple-950/40 via-indigo-950/30 to-transparent blur-[130px]" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-[#0A0B0E]/60 to-[#050507]" />
+          <div className="absolute top-[-15%] right-[-10%] h-[70%] w-[70%] rounded-full bg-gradient-to-bl from-amber-950/30 via-rose-950/20 to-transparent blur-[140px]" />
+          <div className="absolute bottom-[-10%] left-[-10%] h-[65%] w-[65%] rounded-full bg-gradient-to-tr from-purple-950/30 via-indigo-950/20 to-transparent blur-[130px]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-[#07080B]/50 to-[#040507]" />
         </div>
       )}
 
       {/* 3. macOS Ventura Glow */}
       {wallpaper === "ventura" && (
         <div className="relative h-full w-full">
-          <div className="absolute top-[-10%] left-[20%] h-[65%] w-[65%] rounded-full bg-gradient-to-b from-cyan-900/40 via-teal-950/30 to-transparent blur-[130px]" />
-          <div className="absolute bottom-[-10%] right-[10%] h-[70%] w-[70%] rounded-full bg-gradient-to-t from-blue-900/40 via-indigo-950/30 to-transparent blur-[140px]" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-[#0A0B0E]/60 to-[#050507]" />
+          <div className="absolute top-[-10%] left-[20%] h-[65%] w-[65%] rounded-full bg-gradient-to-b from-cyan-950/30 via-teal-950/20 to-transparent blur-[130px]" />
+          <div className="absolute bottom-[-10%] right-[10%] h-[70%] w-[70%] rounded-full bg-gradient-to-t from-blue-950/30 via-indigo-950/20 to-transparent blur-[140px]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-[#07080B]/50 to-[#040507]" />
         </div>
       )}
 
       {/* 4. Capsule Stripes */}
       {wallpaper === "capsules" && (
-        <div className="relative flex h-full w-full items-center justify-center bg-[#0D0D0F]">
-          <div className="flex items-center justify-center gap-3 w-full max-w-4xl h-[70%] px-4">
-            <div className="h-full flex-1 rounded-[60px] bg-[#D84913] shadow-lg" />
-            <div className="h-full flex-1 rounded-[60px] bg-[#EE7B16] shadow-lg" />
-            <div className="h-full flex-1 rounded-[60px] bg-[#F7A61B] shadow-lg" />
-            <div className="h-full flex-1 rounded-[60px] bg-[#F9C958] shadow-lg" />
-            <div className="h-full flex-1 rounded-[60px] bg-[#ECECE1] shadow-lg" />
-            <div className="h-full flex-1 rounded-[60px] bg-[#BEBFB0] shadow-lg" />
-            <div className="h-full flex-1 rounded-[60px] bg-[#5B604E] shadow-lg" />
-            <div className="h-full flex-1 rounded-[60px] bg-[#2E3135] shadow-lg" />
+        <div className="relative flex h-full w-full items-center justify-center bg-[#07080B]">
+          <div className="flex items-center justify-center gap-3 w-full max-w-4xl h-[70%] px-4 opacity-40">
+            <div className="h-full flex-1 rounded-[60px] bg-[#D84913]" />
+            <div className="h-full flex-1 rounded-[60px] bg-[#EE7B16]" />
+            <div className="h-full flex-1 rounded-[60px] bg-[#F7A61B]" />
+            <div className="h-full flex-1 rounded-[60px] bg-[#F9C958]" />
+            <div className="h-full flex-1 rounded-[60px] bg-[#ECECE1]" />
+            <div className="h-full flex-1 rounded-[60px] bg-[#BEBFB0]" />
+            <div className="h-full flex-1 rounded-[60px] bg-[#5B604E]" />
+            <div className="h-full flex-1 rounded-[60px] bg-[#2E3135]" />
           </div>
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-[#0D0D0F]/40 to-[#070709]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-[#07080B]/60 to-[#040507]" />
         </div>
       )}
 
       {/* 5. Cyber Grid */}
       {wallpaper === "cyber" && (
-        <div className="relative h-full w-full bg-[#08080C]">
-          <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff0c_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0c_1px,transparent_1px)] bg-[size:3.5rem_3.5rem]" />
-          <div className="absolute top-1/4 left-1/3 h-96 w-96 rounded-full bg-cyan-500/20 blur-[140px] animate-pulse" />
-          <div className="absolute bottom-1/4 right-1/4 h-96 w-96 rounded-full bg-indigo-600/20 blur-[140px]" />
+        <div className="relative h-full w-full bg-[#07080B]">
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)] bg-[size:3.5rem_3.5rem]" />
+          <div className="absolute top-1/4 left-1/3 h-96 w-96 rounded-full bg-cyan-500/15 blur-[140px]" />
+          <div className="absolute bottom-1/4 right-1/4 h-96 w-96 rounded-full bg-indigo-600/15 blur-[140px]" />
         </div>
       )}
 
       {/* 6. Solid Obsidian */}
       {wallpaper === "obsidian" && (
-        <div className="relative h-full w-full bg-[#070709]" />
+        <div className="relative h-full w-full bg-[#07080B]" />
       )}
     </div>
   );
