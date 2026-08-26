@@ -122,7 +122,7 @@ export default function DockApps() {
   return (
     <div
       ref={containerRef}
-      className="flex items-end px-3 py-1 origin-bottom gap-1 perspective-[1000px]"
+      className="flex items-end px-2 py-0.5 origin-bottom gap-1.5 perspective-[1000px]"
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
     >

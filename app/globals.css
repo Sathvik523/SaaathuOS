@@ -1,15 +1,24 @@
-@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Dancing+Script:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Great+Vibes&family=Dancing+Script:wght@700&display=swap');
 @import "tailwindcss";
 
 :root {
-  --background: #0f1115;
+  --background: #0c0c0e;
   --foreground: #ffffff;
-  --topbar-height: 32px;
-  --topbar-bg: #000000;
+  --topbar-height: 28px;
+  --topbar-bg: rgba(12, 12, 14, 0.65);
+  --accent: #6b8afd;
+  --glass-bg: rgba(255, 255, 255, 0.035);
+  --glass-border: rgba(255, 255, 255, 0.06);
+  --glass-blur: 20px;
+  --shadow-soft: 0 4px 24px rgba(0, 0, 0, 0.45);
 }
 
 .font-helvetica {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.font-system {
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 .font-calligraphy {
@@ -578,7 +587,9 @@ body {
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 *,

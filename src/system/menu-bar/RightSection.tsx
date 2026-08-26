@@ -23,50 +23,50 @@ export default function RightSection() {
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
 
   return (
-    <div className="flex h-full items-center gap-[10px] pr-[12px] select-none antialiased">
-      {/* Battery Cluster (Percentage & Icon 15% Diminished) */}
+    <div className="flex h-full items-center gap-[10px] pr-[14px] select-none antialiased font-system">
+      {/* Battery Cluster */}
       <button
         onClick={() => setIsBatteryOpen(!isBatteryOpen)}
         aria-label="Battery Info"
-        className="group relative flex items-center gap-[5px] p-[2.5px] rounded-[5px] hover:bg-white/[0.08] active:scale-[0.94] transition-all focus:outline-none cursor-pointer"
+        className="group relative flex items-center gap-[4px] p-[2px] rounded-[4px] hover:bg-white/[0.06] active:scale-[0.95] transition-all focus:outline-none cursor-pointer"
       >
-        <span className="font-sans font-semibold text-[13px] tracking-[0px] text-[#FFFFFF] tabular-nums leading-none">
+        <span className="font-system font-normal text-[11.5px] tracking-[0px] text-white/80 tabular-nums leading-none">
           {battery.level}%
         </span>
         <AppleBatterySymbol
-          width={18}
-          height={14}
+          width={16}
+          height={12}
           level={battery.level}
           charging={battery.charging}
-          color="#FFFFFF"
+          color="rgba(255,255,255,0.80)"
         />
       </button>
 
-      {/* WiFi Icon (15% Diminished) */}
+      {/* WiFi Icon */}
       <button
         onClick={() => setIsWifiOpen(!isWifiOpen)}
         aria-label="WiFi Networks"
-        className="group relative flex items-center justify-center p-[2.5px] rounded-[5px] hover:bg-white/[0.08] active:scale-[0.94] transition-all focus:outline-none cursor-pointer"
+        className="group relative flex items-center justify-center p-[2px] rounded-[4px] hover:bg-white/[0.06] active:scale-[0.95] transition-all focus:outline-none cursor-pointer"
       >
-        <AppleWifiSymbol size={15} color="#FFFFFF" />
+        <AppleWifiSymbol size={13} color="rgba(255,255,255,0.80)" />
       </button>
 
-      {/* Control Center Icon (15% Diminished) */}
+      {/* Control Center Icon */}
       <button
         onClick={() => setIsControlCenterOpen(!isControlCenterOpen)}
         aria-label="Control Center"
-        className="group relative flex items-center justify-center p-[2.5px] rounded-[5px] hover:bg-white/[0.08] active:scale-[0.94] transition-all focus:outline-none cursor-pointer"
+        className="group relative flex items-center justify-center p-[2px] rounded-[4px] hover:bg-white/[0.06] active:scale-[0.95] transition-all focus:outline-none cursor-pointer"
       >
-        <AppleControlCenterSymbol size={15} color="#FFFFFF" />
+        <AppleControlCenterSymbol size={13} color="rgba(255,255,255,0.80)" />
       </button>
 
-      {/* Date & Time (15% Diminished) */}
+      {/* Date & Time */}
       <button
         onClick={() => setIsCalendarOpen(!isCalendarOpen)}
         aria-label="Open Calendar"
-        className="group relative flex items-center p-[2.5px] rounded-[5px] hover:bg-white/[0.08] active:scale-[0.94] transition-all focus:outline-none cursor-pointer ml-0.5"
+        className="group relative flex items-center p-[2px] rounded-[4px] hover:bg-white/[0.06] active:scale-[0.95] transition-all focus:outline-none cursor-pointer ml-0.5"
       >
-        <span className="font-sans font-semibold text-[13px] tracking-[0px] text-[#FFFFFF] whitespace-nowrap leading-none">
+        <span className="font-system font-normal text-[11.5px] tracking-[0px] text-white/80 whitespace-nowrap leading-none">
           {dateTime.formatted}
         </span>
       </button>
