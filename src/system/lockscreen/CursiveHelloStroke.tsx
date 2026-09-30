@@ -16,20 +16,15 @@ export default function CursiveHelloStroke({ onComplete }: Props) {
   const [isAppeared, setIsAppeared] = useState(false);
 
   useEffect(() => {
-    // 1. Ultra-slow entrance: Fade & scale in the 3D claymorphed "hello." over 2200ms
-    //    Play the startup chime at the exact moment "hello." appears on screen
-    const timer1 = setTimeout(() => {
-      setIsAppeared(true);
-      playGentleStartupSound();
-    }, 150);
+    setIsAppeared(true);
+    playGentleStartupSound();
 
-    // 2. Stay in full 3D claymorphed view and trigger shrinkage after exactly 3.0 seconds (3000ms)
+    // Stay in the full 3D view before shrinking into the desktop greeting.
     const timer2 = setTimeout(() => {
       onComplete?.();
     }, 3000);
 
     return () => {
-      clearTimeout(timer1);
       clearTimeout(timer2);
     };
   }, [onComplete]);
