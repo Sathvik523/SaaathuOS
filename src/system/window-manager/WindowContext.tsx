@@ -9,6 +9,7 @@ import {
 
 import { applications } from "@/system/registry/applications";
 import { WindowContextType, WindowInstance } from "./types";
+import { WINDOW_UNMOUNT_DELAY_MS } from "./windowAnimation";
 
 export const WindowContext = createContext<WindowContextType | null>(null);
 
@@ -120,7 +121,7 @@ export default function WindowProvider({ children }: Props) {
     []
   );
 
-  // Smooth Closing Animation
+  // Close: fold back into the Dock icon, then unmount
   const closeWindow = useCallback((windowId: string) => {
     setWindows((previous) =>
       previous.map((win) => (win.id === windowId ? { ...win, isClosing: true } : win))
@@ -128,10 +129,10 @@ export default function WindowProvider({ children }: Props) {
 
     setTimeout(() => {
       setWindows((previous) => previous.filter((win) => win.id !== windowId));
-    }, 220);
+    }, WINDOW_UNMOUNT_DELAY_MS);
   }, []);
 
-  // Smooth Minimizing Animation (Genie Scale down to Dock)
+  // Minimize: same fold into the Dock icon, then hide
   const minimizeWindow = useCallback((windowId: string) => {
     setWindows((previous) =>
       previous.map((win) => (win.id === windowId ? { ...win, isMinimizing: true } : win))
@@ -149,7 +150,7 @@ export default function WindowProvider({ children }: Props) {
         }
         return updated;
       });
-    }, 240);
+    }, WINDOW_UNMOUNT_DELAY_MS);
   }, []);
 
   const maximizeWindow = useCallback((windowId: string) => {
@@ -198,10 +199,14 @@ export default function WindowProvider({ children }: Props) {
         return;
       }
 
-      // Compute initial cascading position
-      const windowCount = windows.length;
-      const offsetX = 100 + (windowCount % 4) * 36;
-      const offsetY = 80 + (windowCount % 4) * 32;
+      // Open centred on screen, clamped inside the menu bar and the Dock
+      const { width, height } = application.defaultWindow;
+      const viewportWidth = typeof window !== "undefined" ? window.innerWidth : 1440;
+      const viewportHeight = typeof window !== "undefined" ? window.innerHeight : 900;
+      const MENU_BAR = 38;
+      const DOCK = 96;
+      const offsetX = Math.max(10, Math.round((viewportWidth - width) / 2));
+      const offsetY = Math.max(MENU_BAR, Math.round((viewportHeight - DOCK - height) / 2 + MENU_BAR / 2));
 
       const newZ = Math.max(100, highestZIndex) + 1;
       setHighestZIndex(newZ);

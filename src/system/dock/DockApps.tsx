@@ -10,7 +10,6 @@ import {
   PhotosIcon,
   SettingsIcon,
   TrashIcon,
-  VSCodeIcon,
 } from "@/shared/icons/MacIcons";
 
 interface DockAppConfig {
@@ -22,11 +21,10 @@ interface DockAppConfig {
 
 const DOCK_APPS: DockAppConfig[] = [
   { id: "explorer", label: "Finder", icon: FinderIcon },
-  { id: "projects", label: "VS Code", icon: VSCodeIcon },
-  { id: "terminal", label: "Notes", icon: NotesIcon },
-  { id: "photos", label: "Photos", icon: PhotosIcon },
+  { id: "resume", label: "Résumé", icon: NotesIcon },
+  { id: "about", label: "About Me", icon: PhotosIcon },
   { id: "settings", label: "System Settings", icon: SettingsIcon },
-  { id: "folder", label: "Portfolio Documents", icon: FolderIcon },
+  { id: "guide", label: "Portfolio Documents", icon: FolderIcon },
   { id: "trash", label: "Trash", icon: TrashIcon },
 ];
 
@@ -142,6 +140,7 @@ export default function DockApps() {
         return (
           <div
             key={app.id}
+            data-dock-app={app.id} // windows animate out of / back into this icon
             style={
               isDockFlying
                 ? ({
@@ -164,7 +163,7 @@ export default function DockApps() {
               isActive={isActive}
               isMinimized={isMinimized}
               onClick={() => {
-                if (app.id === "trash" || app.id === "folder") {
+                if (app.id === "trash") {
                   openWindow("explorer");
                   return;
                 }

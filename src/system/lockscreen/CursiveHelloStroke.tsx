@@ -16,12 +16,11 @@ export default function CursiveHelloStroke({ onComplete }: Props) {
   const [isAppeared, setIsAppeared] = useState(false);
 
   useEffect(() => {
-    // Play gentle, fresh Web Audio API startup chime sound!
-    playGentleStartupSound();
-
     // 1. Ultra-slow entrance: Fade & scale in the 3D claymorphed "hello." over 2200ms
+    //    Play the startup chime at the exact moment "hello." appears on screen
     const timer1 = setTimeout(() => {
       setIsAppeared(true);
+      playGentleStartupSound();
     }, 150);
 
     // 2. Stay in full 3D claymorphed view and trigger shrinkage after exactly 3.0 seconds (3000ms)

@@ -499,7 +499,7 @@ export default function ProjectsApp({ scrollProgress = 1 }: ProjectsAppProps) {
             {/* Tech Stack Manuscript Pills */}
             <div className="mt-5 w-full">
               <span className="font-mono text-[9px] uppercase font-semibold text-white/40 tracking-widest block mb-2">
-                TECH STACK MANUSCRIPT
+                TECH STACK
               </span>
               <div className="flex flex-wrap gap-1.5">
                 {activeProject.techStack.map((tech) => (
@@ -590,7 +590,7 @@ export default function ProjectsApp({ scrollProgress = 1 }: ProjectsAppProps) {
                       </div>
                       <div className="flex flex-col">
                         <span className="font-mono text-xs sm:text-sm font-bold tracking-widest text-white uppercase">
-                          SLIT-0{(idx + 1)} // ANALYTICAL MANUSCRIPT
+                          PROJECT 0{(idx + 1)}
                         </span>
                         <span className={`font-mono text-[10px] sm:text-xs ${isPinkViolet ? "text-white/80" : "text-white/50"}`}>
                           {project.category}
@@ -617,7 +617,7 @@ export default function ProjectsApp({ scrollProgress = 1 }: ProjectsAppProps) {
                     {idx === 0 && (
                       <div className="flex flex-col items-center space-y-2.5">
                         <span className="font-mono text-xs sm:text-sm font-bold text-white tracking-wider">
-                          [ SYSTEM MATRIX // SAAATHU_OS ]
+                          {project.title}
                         </span>
                         <div className="w-48 sm:w-56 h-[1px] bg-gradient-to-r from-transparent via-white/50 to-transparent my-1" />
                         <span className={`font-mono text-[10px] sm:text-xs ${isFront ? "text-white/90" : "text-white/70"}`}>

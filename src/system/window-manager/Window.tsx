@@ -30,6 +30,7 @@ export default function Window({ windowId }: WindowProps) {
 
   return (
     <WindowFrame
+      applicationId={window.applicationId}
       active={window.isActive}
       isMinimized={window.isMinimized}
       isMaximized={window.isMaximized}

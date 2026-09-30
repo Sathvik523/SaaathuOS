@@ -3,15 +3,29 @@
 import { useState } from "react";
 import { useWindowManager } from "@/system/window-manager";
 import { USER_PROFILE } from "@/content/portfolioData";
-import { ArrowLeft, Send, CheckCircle2, MessageSquare, AlertTriangle } from "lucide-react";
+import { RESUME_CONTACT } from "@/content/resumeData";
+import { ArrowLeft, Send, CheckCircle2, MessageSquare } from "lucide-react";
 
 export default function ConnectFullPage() {
   const { closeConnectFullPage } = useWindowManager();
-  const [viewMode, setViewMode] = useState<"connect" | "hireCheck" | "alertScreen">("connect");
+  const [viewMode, setViewMode] = useState<"connect" | "suggest" | "sent">("connect");
+  const [suggestion, setSuggestion] = useState("");
   const [formState, setFormState] = useState({ name: "", email: "", message: "" });
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [hoveredMedium, setHoveredMedium] = useState<"github" | "linkedin" | "gmail" | "instagram" | null>(null);
+
+  // No backend here: the note is handed to the visitor's own mail client, so it
+  // genuinely reaches me instead of pretending to have been sent.
+  const sendSuggestion = () => {
+    const note = suggestion.trim();
+    if (!note) return;
+    const subject = encodeURIComponent("Suggestion for SaaathuOS");
+    const body = encodeURIComponent(note);
+    window.open(`mailto:${RESUME_CONTACT.email}?subject=${subject}&body=${body}`, "_blank");
+    setSuggestion("");
+    setViewMode("sent");
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -44,7 +58,7 @@ export default function ConnectFullPage() {
 
       {/* FLOATING "<- Desktop" BUTTON ANCHORED AT LEFT MIDDLE OF THE SCREEN */}
       <button
-        onClick={() => setViewMode("hireCheck")}
+        onClick={() => setViewMode("suggest")}
         className="fixed top-1/2 left-6 -translate-y-1/2 z-50 flex items-center gap-2 px-3.5 py-2 rounded-full border border-white/15 bg-black/70 hover:bg-white/15 backdrop-blur-2xl text-xs font-mono text-white/80 hover:text-white transition-all cursor-pointer shadow-[0_10px_30px_rgba(0,0,0,0.6)] group"
         title="Return to Desktop"
       >
@@ -278,13 +292,13 @@ export default function ConnectFullPage() {
             className="flex items-center gap-2.5 px-4 py-2.5 rounded-full border border-indigo-400/30 bg-indigo-500/10 hover:bg-indigo-500/25 text-xs font-medium text-indigo-300 transition-all cursor-pointer shadow-xl backdrop-blur-2xl group"
           >
             <MessageSquare size={14} className="text-indigo-400 group-hover:scale-110 transition-transform" />
-            <span>Direct Socket Transmitter</span>
+            <span>Send me a message</span>
           </button>
         ) : (
           <div className="w-80 sm:w-96 p-5 rounded-3xl border border-white/15 bg-[#0D0E14]/95 backdrop-blur-3xl shadow-[0_16px_50px_rgba(0,0,0,0.8)] animate-fade-in">
             <div className="flex items-center justify-between mb-3 pb-2 border-b border-white/10">
               <span className="text-[11px] font-mono tracking-widest uppercase text-indigo-400 font-semibold">
-                Direct Socket Transmitter
+                Send me a message
               </span>
               <button
                 onClick={() => setIsFormOpen(false)}
@@ -342,121 +356,115 @@ export default function ConnectFullPage() {
       </div>
 
       {/* ========================================================================= */}
-      {/* 1. HIRE CHECK INTERSTITIAL OVERLAY ("HIRE ME?!" WITH PROJECT BANNER STYLE)  */}
+      {/* 1. PARTING ASK: "slap me with some suggestions before you leave?"          */}
       {/* ========================================================================= */}
-      {viewMode === "hireCheck" && (
-        <div className="fixed inset-0 z-50 bg-[#08090C]/98 backdrop-blur-3xl text-white flex flex-col items-center justify-center p-6 text-center animate-fade-in">
-          
-          {/* Subtle Ambient Radial Glow */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-indigo-500/15 blur-[100px] pointer-events-none" />
+      {viewMode === "suggest" && (
+        <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#08090C]/98 p-6 text-center text-white backdrop-blur-3xl animate-fade-in">
 
-          {/* Title Container */}
-          <div className="relative flex flex-col items-center justify-center z-10">
-            {/* Tiny "wanna" on Top */}
-            <span className="font-mono text-xs sm:text-sm tracking-[0.35em] uppercase text-indigo-400/90 font-semibold mb-3 sm:mb-4">
-              wanna
+          {/* Subtle Ambient Radial Glow */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[520px] h-[520px] rounded-full bg-violet-500/15 blur-[110px] pointer-events-none" />
+
+          <div className="relative z-10 flex w-full max-w-xl flex-col items-center">
+            <span className="mb-3 font-mono text-xs uppercase tracking-[0.35em] text-violet-400/90 sm:mb-4 sm:text-sm">
+              before you leave
             </span>
 
-            {/* Big "HIRE ME?!" Title with Light Pink "ME" */}
-            <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-black tracking-tighter font-helvetica uppercase drop-shadow-[0_0_35px_rgba(255,255,255,0.4)] leading-none">
-              <span className="text-white">HIRE </span>
-              <span className="text-pink-300 drop-shadow-[0_0_35px_rgba(244,114,182,0.6)]">ME</span>
-              <span className="text-white">?!</span>
+            <h1 className="font-helvetica text-3xl font-bold leading-[1.1] tracking-tight text-white sm:text-5xl md:text-6xl">
+              slap me with some{" "}
+              <span className="text-violet-400 drop-shadow-[0_0_35px_rgba(167,139,250,0.55)]">
+                suggestions
+              </span>
+              ?
             </h1>
-          </div>
 
-          {/* Two Tiny Sub-sections Below Title */}
-          <div className="flex flex-col sm:flex-row items-center gap-5 mt-12 z-10">
-            {/* Tiny Section 1: "sometime later" (Red Accent) */}
+            <p className="mt-4 max-w-md font-mono text-[11px] leading-relaxed text-white/45 sm:text-xs">
+              A bug, a nitpick, something that felt off, an idea worth stealing — anything goes.
+            </p>
+
+            {/* The box */}
+            <textarea
+              autoFocus
+              rows={4}
+              value={suggestion}
+              onChange={(e) => setSuggestion(e.target.value)}
+              onKeyDown={(e) => {
+                if ((e.metaKey || e.ctrlKey) && e.key === "Enter") sendSuggestion();
+              }}
+              placeholder="Type it here. Be brutal."
+              className="mt-7 w-full resize-none rounded-2xl border border-white/15 bg-black/50 p-4 text-left text-[13px] leading-relaxed text-white placeholder-white/25 backdrop-blur-xl transition-colors focus:border-violet-400/60 focus:outline-none"
+            />
+
+            <div className="mt-5 flex w-full flex-col items-center gap-3 sm:flex-row sm:justify-center">
+              <button
+                onClick={sendSuggestion}
+                disabled={!suggestion.trim()}
+                className="w-full rounded-full border border-violet-400/50 bg-violet-500/20 px-8 py-2.5 font-mono text-xs font-bold text-violet-200 shadow-[0_0_30px_rgba(139,92,246,0.25)] transition-all hover:bg-violet-500/35 hover:scale-105 active:scale-95 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:scale-100 sm:w-auto sm:text-sm cursor-pointer"
+              >
+                Send it
+              </button>
+
+              <button
+                onClick={closeConnectFullPage}
+                className="w-full rounded-full border border-white/15 bg-white/[0.04] px-6 py-2.5 font-mono text-xs text-white/60 transition-all hover:bg-white/10 hover:text-white hover:scale-105 active:scale-95 sm:w-auto sm:text-sm cursor-pointer"
+              >
+                Nah, I&apos;m good
+              </button>
+            </div>
+
+            {/* Said plainly: this hands the note to their mail app, nothing is posted anywhere */}
+            <p className="mt-4 font-mono text-[10px] text-white/30">
+              ⌘/Ctrl + Enter · opens your mail app, addressed to me
+            </p>
+
             <button
-              onClick={() => setViewMode("alertScreen")}
-              className="px-6 py-2.5 rounded-full border border-rose-500/40 bg-rose-500/10 hover:bg-rose-500/25 text-rose-400 font-mono text-xs sm:text-sm font-medium transition-all cursor-pointer shadow-[0_0_20px_rgba(244,63,94,0.2)] hover:scale-105 active:scale-95"
+              onClick={() => setViewMode("connect")}
+              className="mt-8 cursor-pointer font-mono text-xs text-white/40 transition-colors hover:text-white/80"
             >
-              sometime later
-            </button>
-
-            {/* Tiny Section 2: "YESS!" (Vibrant Emerald Accent) */}
-            <button
-              onClick={closeConnectFullPage}
-              className="px-8 py-2.5 rounded-full border border-emerald-400/50 bg-emerald-400/15 hover:bg-emerald-400/30 text-emerald-300 font-mono text-xs sm:text-sm font-bold transition-all cursor-pointer shadow-[0_0_30px_rgba(52,211,153,0.3)] hover:scale-105 active:scale-95"
-            >
-              YESS!
+              ← Return to Connect Page
             </button>
           </div>
-
-          {/* Cancel & Return to Connect page link */}
-          <button
-            onClick={() => setViewMode("connect")}
-            className="mt-10 text-xs font-mono text-white/40 hover:text-white/80 transition-colors cursor-pointer"
-          >
-            ← Return to Connect Page
-          </button>
-
         </div>
       )}
 
       {/* ========================================================================= */}
-      {/* 2. ALERT INTERFACE: BIG ⚠️ ICON + PULSING RED GLOW BACKGROUND             */}
+      {/* 2. THANK-YOU STATE                                                        */}
       {/* ========================================================================= */}
-      {viewMode === "alertScreen" && (
-        <div className="fixed inset-0 z-50 bg-[#0A0304] text-white flex flex-col items-center justify-center p-6 text-center select-none overflow-hidden animate-fade-in">
-          
-          {/* INTENSE RED GLOW BLINKING IN THE BACKGROUND ACROSS THE ENTIRE PAGE */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[750px] sm:w-[900px] h-[750px] sm:h-[900px] rounded-full bg-rose-600/40 blur-[130px] animate-red-alert-blink pointer-events-none z-0" />
+      {viewMode === "sent" && (
+        <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#08090C]/98 p-6 text-center text-white backdrop-blur-3xl animate-fade-in">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[480px] w-[480px] -z-0 rounded-full bg-emerald-500/12 blur-[110px] pointer-events-none" />
 
-          {/* Alert Canvas Box */}
-          <div className="relative z-10 flex flex-col items-center max-w-xl mx-auto">
-            
-            {/* Big ⚠️ Warning Symbol with Red Glow & Bounce Physics */}
-            <div className="text-7xl sm:text-9xl md:text-[130px] animate-bounce drop-shadow-[0_0_50px_rgba(239,68,68,0.9)] mb-6 select-none">
-              ⚠️
-            </div>
+          <div className="relative z-10 flex max-w-md flex-col items-center">
+            <CheckCircle2 size={44} className="mb-5 text-emerald-400 drop-shadow-[0_0_25px_rgba(52,211,153,0.5)]" />
 
-            {/* Critical Warning Header: "RETHINK YOUR DECISION" */}
-            <div className="flex items-center gap-2 text-xs sm:text-sm font-mono text-rose-500 tracking-[0.3em] uppercase font-bold mb-3">
-              <AlertTriangle size={16} className="text-rose-500 animate-pulse" />
-              <span>RETHINK YOUR DECISION</span>
-            </div>
-
-            {/* Alert Title */}
-            <h2 className="text-2xl sm:text-4xl font-bold tracking-tight text-white font-helvetica mb-4 drop-shadow-[0_4px_20px_rgba(239,68,68,0.4)]">
-              OPPORTUNITY LOSS IMMINENT
+            <h2 className="font-helvetica text-2xl font-bold tracking-tight text-white sm:text-3xl">
+              Noted — thank you.
             </h2>
 
-            {/* Warning Message */}
-            <p className="text-xs sm:text-sm font-mono text-rose-200/80 leading-relaxed mb-8 max-w-md">
-              Delaying Sathvik&apos;s connection may result in schedule saturation! Are you sure you want to postpone hiring?
+            <p className="mt-3 font-mono text-[11px] leading-relaxed text-white/50 sm:text-xs">
+              Your mail app should be open with the note ready to send. If it didn&apos;t open,
+              write to{" "}
+              <a href={`mailto:${RESUME_CONTACT.email}`} className="text-emerald-300 hover:underline">
+                {RESUME_CONTACT.email}
+              </a>
+              .
             </p>
 
-            {/* Interactive Alert Actions */}
-            <div className="flex flex-col sm:flex-row items-center gap-4 w-full justify-center">
-              {/* Primary Action: Reconsider & Hire Now! */}
+            <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row">
               <button
                 onClick={closeConnectFullPage}
-                className="w-full sm:w-auto px-7 py-3 rounded-full border border-emerald-400/60 bg-emerald-400/20 hover:bg-emerald-400/35 text-emerald-300 font-mono text-xs sm:text-sm font-bold transition-all cursor-pointer shadow-[0_0_35px_rgba(52,211,153,0.4)] hover:scale-105 active:scale-95"
+                className="w-full rounded-full border border-emerald-400/50 bg-emerald-400/15 px-7 py-2.5 font-mono text-xs font-bold text-emerald-300 shadow-[0_0_30px_rgba(52,211,153,0.28)] transition-all hover:bg-emerald-400/30 hover:scale-105 active:scale-95 sm:w-auto sm:text-sm cursor-pointer"
               >
-                RECONSIDER: YESS!
+                Back to desktop
               </button>
 
-              {/* Secondary Action: Force Exit to Desktop */}
               <button
-                onClick={closeConnectFullPage}
-                className="w-full sm:w-auto px-6 py-3 rounded-full border border-rose-500/30 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400/80 hover:text-rose-300 font-mono text-xs sm:text-sm transition-all cursor-pointer hover:scale-105 active:scale-95"
+                onClick={() => setViewMode("connect")}
+                className="w-full rounded-full border border-white/15 bg-white/[0.04] px-6 py-2.5 font-mono text-xs text-white/60 transition-all hover:bg-white/10 hover:text-white sm:w-auto sm:text-sm cursor-pointer"
               >
-                Exit to Desktop
+                ← Connect Page
               </button>
             </div>
-
-            {/* Back to Checkpoint */}
-            <button
-              onClick={() => setViewMode("hireCheck")}
-              className="mt-8 text-xs font-mono text-white/40 hover:text-white/80 transition-colors cursor-pointer"
-            >
-              ← Back to decision
-            </button>
-
           </div>
-
         </div>
       )}
 

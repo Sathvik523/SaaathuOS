@@ -40,6 +40,7 @@ export interface FileItem {
   path: string;
   tags?: string[];
   externalUrl?: string;
+  opensApp?: string; // double-clicking this file opens this application
 }
 
 export const USER_PROFILE = {
@@ -223,6 +224,7 @@ export const EXPLORER_FILES: FileItem[] = [
     parentId: "folder-desktop",
     path: "/Desktop/Sathvik_Resume_2026.pdf",
     tags: ["Work"],
+    opensApp: "resume",
     content: "PDF Resume Document - Full-Stack & AI Systems Engineer with 4+ years experience building web apps, AI orchestration systems, and cloud infrastructure.",
   },
 
@@ -278,7 +280,21 @@ export const EXPLORER_FILES: FileItem[] = [
     parentId: "folder-documents",
     path: "/Documents/About_Sathvik.md",
     tags: ["Personal"],
+    opensApp: "about",
     content: `# About Me\nHi! I'm Sathvik, a Full-Stack Engineer and AI Systems builder. I love crafting software that combines technical elegance with exceptional design.`,
+  },
+  {
+    id: "file-build-guide",
+    name: "Portfolio_Build_Guide.md",
+    type: "file",
+    extension: "md",
+    size: "6.2 KB",
+    updatedAt: "Today, 9:40 AM",
+    parentId: "folder-documents",
+    path: "/Documents/Portfolio_Build_Guide.md",
+    tags: ["Important", "Featured"],
+    opensApp: "guide",
+    content: `# Build a portfolio like this one\n\nA four-part guide: how SaaathuOS is built, how to make it your own, the details most visitors never find, and the problems you'll hit along the way (with fixes).\n\nDouble-click to open the guide.`,
   },
   {
     id: "file-skills",

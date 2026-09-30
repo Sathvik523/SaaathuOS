@@ -2,7 +2,7 @@
 
 import { WindowProvider, useWindowManager } from "@/system/window-manager";
 import { WallpaperProvider } from "./WallpaperContext";
-import { SpotlightProvider } from "@/system/spotlight/SpotlightContext";
+import { SpotlightProvider, useSpotlight } from "@/system/spotlight/SpotlightContext";
 import LockScreenView from "@/system/lockscreen/LockScreenView";
 import LockScreen from "@/system/spotlight/LockScreen";
 import SpotlightOverlay from "@/system/spotlight/SpotlightOverlay";
@@ -13,12 +13,33 @@ import { Dock } from "@/system/dock";
 import ProjectsFullPage from "@/apps/projects/ProjectsFullPage";
 import ConnectFullPage from "@/apps/connect/ConnectFullPage";
 import DesktopWidgets from "./DesktopWidgets";
+import DisassemblyPortals from "./DisassemblyPortals";
+
+// Focus mode: with a window open, everything behind it drops in brightness so the
+// window is the only fully lit thing on screen. The Dock and menu bar stay a little
+// brighter than the backdrop because they remain clickable.
+const DIM_TRANSITION = "transition-opacity duration-500 ease-out";
+const BACKDROP_DIM = "opacity-[0.34]";
+const DOCK_DIM = "opacity-[0.55]";
 
 function DesktopShellContent() {
-  const { isProjectsFullPageOpen, isConnectFullPageOpen, disassemblyStep, connectDisassemblyStep } = useWindowManager();
+  const {
+    windows,
+    isProjectsFullPageOpen,
+    isConnectFullPageOpen,
+    disassemblyStep,
+    connectDisassemblyStep,
+  } = useWindowManager();
+  const { searchQuery, isFocused } = useSpotlight();
 
-  // Desktop elements (wallpaper, lockscreen greeting, apps, dock, menu bar) dim into complete darkness
+  // Desktop elements dim into complete darkness during disassembly
   const isDesktopFadingToDarkness = disassemblyStep >= 2 || connectDisassemblyStep >= 2;
+
+  // Dim everything except the search area when user is actively typing
+  const isSearchActive = isFocused && searchQuery.length > 0;
+
+  // A window is on screen (not minimized, not on its way out) → dim the rest
+  const isWindowFocusMode = windows.some((w) => !w.isMinimized && !w.isClosing);
 
   return (
     <div className="relative h-screen w-screen overflow-hidden select-none bg-black no-scrollbar">
@@ -56,24 +77,48 @@ function DesktopShellContent() {
             ${isDesktopFadingToDarkness ? "opacity-0 pointer-events-none" : "opacity-100"}
           `}
         >
-          {/* Layer 0: Wallpaper */}
-          <Wallpaper />
+          {/* Layer 0: Wallpaper (dims behind an open window / while searching) */}
+          <div className={`${DIM_TRANSITION} ${isSearchActive ? "opacity-[0.15]" : isWindowFocusMode ? BACKDROP_DIM : "opacity-100"}`}>
+            <Wallpaper />
+          </div>
 
           {/* Layer 10: Middle-Left Spotlight Greeting & Search Experience */}
-          <LockScreen />
+          <div className={`${DIM_TRANSITION} ${isWindowFocusMode ? BACKDROP_DIM : "opacity-100"}`}>
+            <LockScreen />
+          </div>
 
-          {/* Layer 100+: Application Windows */}
-          <Desktop />
+          {/* Layer 20: Hanging widgets — inside this layer, and before the windows, so an
+              open window always sits above them and takes the clicks */}
+          <div className={`${DIM_TRANSITION} ${isSearchActive ? "opacity-[0.08]" : isWindowFocusMode ? BACKDROP_DIM : "opacity-100"}`}>
+            <DesktopWidgets />
+          </div>
+
+          {/* Layer 100+: Application Windows — the one thing that never dims */}
+          <div className={`${DIM_TRANSITION} ${isSearchActive ? "opacity-[0.08]" : "opacity-100"}`}>
+            <Desktop />
+          </div>
 
           {/* Layer 500: Bottom macOS Dock */}
-          <Dock />
+          <div className={`${DIM_TRANSITION} ${isSearchActive ? "opacity-[0.12]" : isWindowFocusMode ? DOCK_DIM : "opacity-100"}`}>
+            <Dock />
+          </div>
+        </div>
 
-          {/* Layer 600: Top macOS Menu Bar */}
+        {/* Layer 660: Top macOS Menu Bar — kept outside the fading layer above (whose transform
+            would sink it below the windows) so the bar and its dropdowns stay on top */}
+        <div
+          className={`relative z-30 transition-opacity ease-out ${
+            isDesktopFadingToDarkness
+              ? "duration-900 opacity-0 pointer-events-none"
+              : `duration-500 ${isSearchActive ? "opacity-[0.12]" : isWindowFocusMode ? DOCK_DIM : "opacity-100"}`
+          }`}
+        >
           <MenuBar />
         </div>
 
-        {/* Layer 650: Isolated Desktop Widgets */}
-        <DesktopWidgets />
+        {/* Layer 650: Projects / Connect intro portals — above the windows, and outside the
+            fading layer, so they stay lit while the desktop behind them goes dark */}
+        <DisassemblyPortals />
 
         {/* Layer 700: Global Spotlight Modal Overlay */}
         <SpotlightOverlay />

@@ -1,4 +1,7 @@
 import ExplorerApp from "@/apps/explorer/ExplorerApp";
+import GuideApp from "@/apps/guide/GuideApp";
+import ResumeApp from "@/apps/resume/ResumeApp";
+import AboutApp from "@/apps/about/AboutApp";
 import ProjectsApp from "@/apps/projects/ProjectsApp";
 import TerminalApp from "@/apps/terminal/TerminalApp";
 import SettingsApp from "@/apps/settings/SettingsApp";
@@ -40,6 +43,30 @@ export const applications: Application[] = [
     },
   },
   {
+    id: "about",
+    name: "About Me",
+    description: "Who I am, what I'm studying, and what I've built.",
+    icon: PhotosIcon as unknown as Application["icon"],
+    component: AboutApp,
+    showInDock: true,
+    defaultWindow: {
+      width: 940,
+      height: 660,
+    },
+  },
+  {
+    id: "resume",
+    name: "Résumé",
+    description: "Education, experience, research projects and technical skills.",
+    icon: NotesIcon as unknown as Application["icon"],
+    component: ResumeApp,
+    showInDock: true,
+    defaultWindow: {
+      width: 880,
+      height: 680,
+    },
+  },
+  {
     id: "terminal",
     name: "Terminal",
     description: "Interactive zsh command line interface.",
@@ -49,6 +76,18 @@ export const applications: Application[] = [
     defaultWindow: {
       width: 750,
       height: 480,
+    },
+  },
+  {
+    id: "guide",
+    name: "Portfolio Documents",
+    description: "How this portfolio was built, how to make it yours, and how to get unstuck.",
+    icon: FolderIcon as unknown as Application["icon"],
+    component: GuideApp,
+    showInDock: true,
+    defaultWindow: {
+      width: 1080,
+      height: 724,
     },
   },
   {

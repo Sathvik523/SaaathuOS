@@ -33,14 +33,12 @@ export function SpotlightProvider({ children }: { children: React.ReactNode }) {
   const [isFocused, setIsFocused] = useState(false);
   const [isNameModalOpen, setIsNameModalOpen] = useState(false);
 
-  // Initialize from LocalStorage
+  // Initialize from LocalStorage (first-time visitors enter their name on the lock screen)
   useEffect(() => {
     if (typeof window !== "undefined") {
       const savedName = localStorage.getItem("saathuos_visitor_name");
       if (savedName) {
         setVisitorNameState(savedName);
-      } else {
-        setIsNameModalOpen(true);
       }
     }
   }, []);

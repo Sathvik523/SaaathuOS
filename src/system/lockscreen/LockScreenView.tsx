@@ -27,8 +27,9 @@ export default function LockScreenView() {
     e?.preventDefault();
     if (isUnlocking) return;
 
+    // Fall back to the saved name so returning visitors aren't renamed "Guest"
     const trimmed = inputName.trim();
-    setVisitorName(trimmed || "Guest");
+    setVisitorName(trimmed || visitorName || "Guest");
 
     // Trigger 1.3s Gravitational Pull-Down Vortex Unlock Animation
     setIsUnlocking(true);
@@ -42,10 +43,10 @@ export default function LockScreenView() {
 
   return (
     <div
-      className={`fixed inset-0 z-[9999999] flex flex-col items-center justify-center p-6 bg-black select-none overflow-hidden transition-all duration-[1300ms] ease-in-out ${
+      className={`fixed inset-0 z-[9999999] flex flex-col items-center justify-center p-6 bg-black select-none overflow-hidden transition-[opacity] duration-[1300ms] ease-in-out will-change-[opacity] ${
         isUnlocking
-          ? "opacity-0 backdrop-blur-none pointer-events-none"
-          : "opacity-100 backdrop-blur-3xl"
+          ? "opacity-0 pointer-events-none"
+          : "opacity-100"
       }`}
     >
       {/* Container to permanently hold "hello." and form centered in the middle of screen */}
@@ -113,7 +114,7 @@ export default function LockScreenView() {
           </div>
 
           <span className="text-xs font-semibold text-white/90 mb-2.5 tracking-tight">
-            {inputName.trim() ? inputName : "SaaathuOS Visitor"}
+            {inputName.trim() || visitorName || "SaaathuOS Visitor"}
           </span>
 
           {/* Input Name Field (Claymorphism + Glassmorphism Hybrid) */}
@@ -127,7 +128,7 @@ export default function LockScreenView() {
               type="text"
               value={inputName}
               onChange={(e) => setInputName(e.target.value)}
-              placeholder="Enter your name..."
+              placeholder={visitorName ? `Continue as ${visitorName}...` : "Enter your name..."}
               autoFocus={isRestRevealed}
               className="w-full h-[38px] rounded-full bg-transparent px-4 pr-10 text-center text-sm font-medium text-white placeholder-white/35 focus:outline-none focus:placeholder-white/60 transition-all"
             />

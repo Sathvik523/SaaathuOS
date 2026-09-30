@@ -19,7 +19,7 @@ export default function VisitorNameModal() {
   };
 
   return (
-    <div className="fixed inset-0 z-[99999] flex items-center justify-center bg-black/80 backdrop-blur-3xl animate-in fade-in duration-200 select-none">
+    <div className="fixed inset-0 z-[99999] flex items-center justify-center bg-black/80 backdrop-blur-3xl animate-in fade-in duration-200 select-none pointer-events-auto">
       <div className="w-full max-w-md rounded-3xl border border-white/15 bg-[#1C1D22]/95 p-8 text-center text-white shadow-2xl backdrop-blur-3xl animate-in zoom-in-95 duration-150">
         <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-tr from-indigo-600 to-purple-600 shadow-lg border border-white/20 mb-5">
           <Sparkles className="h-7 w-7 text-white" />

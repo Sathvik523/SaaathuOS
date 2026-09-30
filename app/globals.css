@@ -597,3 +597,40 @@ body {
 *::after {
   box-sizing: border-box;
 }
+/* ==========================================================================
+   Résumé · technical-skill logo marquees
+   The track holds the logo list twice, so shifting it by exactly half its
+   width loops seamlessly. Languages drift left→right, tools right→left.
+   ========================================================================== */
+@keyframes techMarqueeToRight {
+  from { transform: translate3d(-50%, 0, 0); }
+  to   { transform: translate3d(0, 0, 0); }
+}
+
+@keyframes techMarqueeToLeft {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(-50%, 0, 0); }
+}
+
+.animate-tech-marquee-right {
+  animation: techMarqueeToRight 32s linear infinite;
+  will-change: transform;
+}
+
+.animate-tech-marquee-left {
+  animation: techMarqueeToLeft 38s linear infinite;
+  will-change: transform;
+}
+
+/* Hovering a row holds it still so a logo can be inspected */
+.tech-marquee:hover .animate-tech-marquee-right,
+.tech-marquee:hover .animate-tech-marquee-left {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-tech-marquee-right,
+  .animate-tech-marquee-left {
+    animation: none;
+  }
+}

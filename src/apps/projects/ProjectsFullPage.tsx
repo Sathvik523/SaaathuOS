@@ -139,7 +139,7 @@ export default function ProjectsFullPage() {
 
           {/* Monospace Blueprint Subtitle */}
           <p className="font-mono text-xs sm:text-sm tracking-[0.35em] text-blue-300/80 uppercase mt-6 sm:mt-8">
-            LABORATORY MANUSCRIPT // FEATURED SYSTEM ARCHITECTURES
+            SELECTED WORK // SYSTEMS I'VE DESIGNED AND BUILT
           </p>
         </div>
 
@@ -149,7 +149,7 @@ export default function ProjectsFullPage() {
           className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 font-mono text-[10px] text-white/50 hover:text-white transition-colors cursor-pointer z-20 group"
         >
           <span className="tracking-widest uppercase text-blue-300/70 group-hover:text-blue-200">
-            SCROLL DOWN TO EXPLORE LABORATORY SLITS
+            SCROLL DOWN TO BROWSE THE PROJECTS
           </span>
           <ArrowDown size={16} className="text-blue-400 animate-bounce mt-1" />
         </div>

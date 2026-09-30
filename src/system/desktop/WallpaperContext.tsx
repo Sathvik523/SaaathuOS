@@ -11,6 +11,10 @@ interface WallpaperContextType {
   setCustomImageUrl: (url: string | null) => void;
 }
 
+const KNOWN_PRESETS: WallpaperPreset[] = [
+  "sequoia", "sonoma", "ventura", "capsules", "cyber", "obsidian", "custom",
+];
+
 const WallpaperContext = createContext<WallpaperContextType | null>(null);
 
 export function WallpaperProvider({ children }: { children: React.ReactNode }) {
@@ -21,7 +25,7 @@ export function WallpaperProvider({ children }: { children: React.ReactNode }) {
     if (typeof window !== "undefined") {
       const savedWallpaper = localStorage.getItem("saathuos_wallpaper") as WallpaperPreset;
       const savedCustom = localStorage.getItem("saathuos_custom_wallpaper");
-      if (savedWallpaper) setWallpaperState(savedWallpaper);
+      if (savedWallpaper && KNOWN_PRESETS.includes(savedWallpaper)) setWallpaperState(savedWallpaper);
       if (savedCustom) setCustomImageUrlState(savedCustom);
     }
   }, []);

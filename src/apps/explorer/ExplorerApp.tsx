@@ -285,6 +285,8 @@ export default function ExplorerApp() {
                       onDoubleClick={() => {
                         if (file.type === "folder") {
                           navigateToFolder(file.id);
+                        } else if (file.opensApp) {
+                          openWindow(file.opensApp);
                         } else if (file.projectRefId) {
                           openWindow("projects");
                         }
@@ -324,6 +326,8 @@ export default function ExplorerApp() {
                       onDoubleClick={() => {
                         if (file.type === "folder") {
                           navigateToFolder(file.id);
+                        } else if (file.opensApp) {
+                          openWindow(file.opensApp);
                         } else if (file.projectRefId) {
                           openWindow("projects");
                         }

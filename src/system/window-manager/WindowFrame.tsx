@@ -1,8 +1,10 @@
 "use client";
 
-import { ReactNode, useCallback, useRef } from "react";
+import { ReactNode, useCallback, useLayoutEffect, useRef } from "react";
+import { animateWindowClose, animateWindowOpen } from "./windowAnimation";
 
 interface WindowFrameProps {
+  applicationId: string;
   active: boolean;
   isMinimized: boolean;
   isMaximized: boolean;
@@ -18,6 +20,7 @@ interface WindowFrameProps {
 }
 
 export default function WindowFrame({
+  applicationId,
   active,
   isMinimized,
   isMaximized,
@@ -36,6 +39,24 @@ export default function WindowFrame({
 
   const isResizingRef = useRef(false);
   const resizeStartRef = useRef({ x: 0, y: 0, width: 0, height: 0 });
+
+  const frameRef = useRef<HTMLDivElement>(null);
+  const isHidden = isMinimized && !isMinimizing;
+  const isLeaving = isClosing || isMinimizing;
+
+  // Unfold out of the Dock icon whenever the frame appears (first open, or restored from minimize)
+  useLayoutEffect(() => {
+    if (isHidden || !frameRef.current) return;
+    const animation = animateWindowOpen(frameRef.current, applicationId);
+    return () => animation?.cancel();
+  }, [isHidden, applicationId]);
+
+  // Fold back into the Dock icon on close / minimize
+  useLayoutEffect(() => {
+    if (!isLeaving || !frameRef.current) return;
+    const animation = animateWindowClose(frameRef.current, applicationId);
+    return () => animation?.cancel();
+  }, [isLeaving, applicationId]);
 
   // Handle Dragging
   const handleDragStart = useCallback(
@@ -141,15 +162,14 @@ export default function WindowFrame({
 
   return (
     <div
+      ref={frameRef}
       onClick={onFocus}
       style={style}
       className={`
         flex flex-col overflow-hidden rounded-[14px]
         bg-[#18191E]/95 backdrop-blur-3xl border border-white/[0.08]
-        transition-all duration-200 ease-out origin-bottom
-        ${isClosing ? "scale-90 opacity-0 pointer-events-none" : ""}
-        ${isMinimizing ? "scale-50 translate-y-72 opacity-0 pointer-events-none" : ""}
-        ${!isClosing && !isMinimizing ? "animate-in fade-in zoom-in-95 duration-150" : ""}
+        transition-all duration-200 ease-out
+        ${isLeaving ? "pointer-events-none" : "pointer-events-auto"}
         ${active ? "opacity-100 ring-1 ring-white/10" : "opacity-95 border-white/[0.04]"}
       `}
     >
